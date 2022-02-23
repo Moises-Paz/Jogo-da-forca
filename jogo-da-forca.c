@@ -29,14 +29,32 @@ void addWord(){
 	}
 }
 
+int tamanhoFile(FILE *file){
+	if(file){
+		fseek(file, 0, SEEK_END);
+		int tam = ftell(file);
+		if(tam != -1){
+			return tam;
+		}
+	}
+	return 0;
+}
+
 void listar(){
 	FILE *file;
 	file =  fopen("words.txt", "r");
 	if(file){
-		char *word = (char *) malloc(sizeof(char)*50);
-		while(fgets(word, 50, file) != NULL){
-			printf("%s", word);
-		}	
+		int tamanhoArq = tamanhoFile(file);
+		if(tamanhoArq != 0){
+			rewind(file);
+			char *word = (char *) malloc(sizeof(char)*50);
+			while(fgets(word, 50, file) != NULL){
+				printf("%s", word);
+			}	
+		}
+		else{
+			puts("Nao ha palavras cadastradas");
+		}
 	}
 	else puts("ERRO 01");
 }
@@ -60,7 +78,13 @@ int verificaPalavras(char v1[50], char v2[50]){
 }
 
 void excluirWord(){
-	FILE *file;
+	FILE *file = fopen("words.txt", "r");
+	int tamanhoArq = tamanhoFile(file);
+	if(tamanhoArq == 0){
+		puts("Nao ha palavras para serem excluidas");
+		return;
+	}
+	fclose(file);
 	char n = '0';
 	puts("1 - Excluir a lista toda");
 	puts("2 - Excluir palavra expecifica");
@@ -195,6 +219,12 @@ void jogo(){
 	FILE *file;
 	file = fopen("words.txt", "r");
 	if(file){
+		int tamanhoArq = tamanhoFile(file);
+		if(tamanhoArq == 0){
+			puts("Nao ha palavras cadastradas\nCadastre algumas palavras para jogar");
+			return;
+		}
+		rewind(file); 
 		srand(time(NULL));
 		int max = 0;
 		char word[50];

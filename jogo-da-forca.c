@@ -206,10 +206,19 @@ void desenhar(int i){
 	}
 }
 
-int verificaPalavras2(char vet1[], char vet2[]){ //depois comparar com o verifica 1 para saver quem vai ficar;
+int verificaPalavras2(char vet1[], char vet2[]){ //depois comparar com o verifica 1 para saber quem vai ficar;
 	int i = 0;
 	while(vet1[i] != '\0'){
-		if(vet1[i] != vet2[i]) return 0;
+		if(vet1[i] >= 65 && vet1[i] <= 90){
+			if(vet1[i] != vet2[i]){
+				if(vet1[i] != vet2[i] - 32) return 0;
+			}
+		}
+		else{
+			if(vet1[i] != vet2[i]){
+				if(vet1[i] != vet2[i] + 32) return 0;
+			}
+		}
 		i++;
 	}
 	return 1;
@@ -276,7 +285,7 @@ void jogo(){
 					if(resposta[1] == '\0'){
 						errado = 2;
 						for(int i = 0; word[i] != '\0'; i++){
-							if(word[i] == resposta[0]){
+							if(word[i] == resposta[0] || resposta[0] + 32 == word[i] || resposta[0] - 32 == word[i]){
 								letrasAcerto[i] = word[i];
 								errado = 1;
 							}
@@ -286,13 +295,14 @@ void jogo(){
 						}
 					}
 					else{
-						int i = 0;
-						for( ; word[i] == resposta[i] && word != '\0' && resposta[i] != '\0'; i++);
-						if(word[i] == '\0' && resposta[i] =='\0'){
+						//for( ; word[i] == resposta[i] && word != '\0' && resposta[i] != '\0'; i++);
+						int i;
+						if(i = verificaPalavras2(resposta, word)/*word[i] == '\0' && resposta[i] =='\0'*/){
 							printf("Acertou");
 							verifica = 'f';
 						}
 						else{
+							printf("i =%d\n", i);
 							puts("errou FIM");
 							verifica = 'f';
 						}

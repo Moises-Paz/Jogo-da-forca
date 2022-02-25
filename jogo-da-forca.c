@@ -258,32 +258,30 @@ void jogo(){
 			}
 
 			while(verifica != 'f'){
+				desenhar(erro);
+				for(int i = 0; letrasAcerto[i] != '\0'; i++){
+					if(letrasAcerto[i] != '0'){
+						printf("%c ", letrasAcerto[i]);
+					}
+					else{
+						printf("__ ");
+					}	
+				}
+
 				if(verificaPalavras2(letrasAcerto, word) || erro > 5){
 					if(erro > 5){
 						puts("Errou");
 					}
 					else{
-						puts("Acertou");
+						puts("\nAcertou");
 					}
 					verifica = 'f';
 				}
 				else{
-					desenhar(erro);
-
-					for(int i = 0; letrasAcerto[i] != '\0'; i++){
-						if(letrasAcerto[i] != '0'){
-							printf("%c ", letrasAcerto[i]);
-						}
-						else{
-							printf("__ ");
-						}	
-					}
 					printf("\nDigite uma letra ou uma palavra: ");
-					scanf(" %s", resposta);
-					//fgets(resposta, tam, stdin); <--- verificar isso;
-
+					scanf(" %s", resposta); //fgets(resposta, tam, stdin); <--- verificar isso;
+					errado = 2;
 					if(resposta[1] == '\0'){
-						errado = 2;
 						for(int i = 0; word[i] != '\0'; i++){
 							if(word[i] == resposta[0] || resposta[0] + 32 == word[i] || resposta[0] - 32 == word[i]){
 								letrasAcerto[i] = word[i];
@@ -295,19 +293,10 @@ void jogo(){
 						}
 					}
 					else{
-						//for( ; word[i] == resposta[i] && word != '\0' && resposta[i] != '\0'; i++);
-						int i;
-						if(i = verificaPalavras2(resposta, word)/*word[i] == '\0' && resposta[i] =='\0'*/){
-							printf("Acertou");
-							verifica = 'f';
-						}
-						else{
-							printf("i =%d\n", i);
-							puts("errou FIM");
-							verifica = 'f';
+						if(!verificaPalavras2(resposta, word)){
+							errado = 0;
 						}
 					}
-
 					if(errado == 0){
 						erro = erro + 1;
 						errado = 2;

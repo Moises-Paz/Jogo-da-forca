@@ -124,12 +124,12 @@ void excluirWord(){
 		}
 }
 
-void desenhar(int i){
+void desenhar(int i, int tamanho){
 	switch(i){
 		case 0:
 		{
 			puts("_________");
-			puts("|        |");
+			printf("|        |			Letras: %d\n", tamanho);
 			puts("|");
 			puts("|");
 			puts("|");
@@ -140,7 +140,7 @@ void desenhar(int i){
 		case 1:
 		{
 			puts("_________");
-			puts("|        |");
+			printf("|        |			Letras: %d\n", tamanho);
 			puts("|       ( )");
 			puts("|");
 			puts("|");
@@ -151,7 +151,7 @@ void desenhar(int i){
 		case 2:
 		{
 			puts("_________");
-			puts("|        |");
+			printf("|        |			Letras: %d\n", tamanho);
 			puts("|       ( )");
 			puts("|        |");
 			puts("|");
@@ -162,7 +162,7 @@ void desenhar(int i){
 		case 3:
 		{
 			puts("_________");
-			puts("|        |");
+			printf("|        |			Letras: %d\n", tamanho);
 			puts("|       ( )");
 			puts("|       /|");
 			puts("|");
@@ -173,7 +173,7 @@ void desenhar(int i){
 		case 4:
 		{
 			puts("_________");
-			puts("|        |");
+			printf("|        |			Letras: %d\n", tamanho);
 			puts("|       ( )");
 			puts("|       /|\\");
 			puts("|");
@@ -184,7 +184,7 @@ void desenhar(int i){
 		case 5:
 		{
 			puts("_________");
-			puts("|        |");
+			printf("|        |			Letras: %d\n", tamanho);
 			puts("|       ( )");
 			puts("|       /|\\");
 			puts("|       / ");
@@ -195,7 +195,7 @@ void desenhar(int i){
 		case 6:
 		{
 			puts("_________");
-			puts("|        |");
+			printf("|        |			Letras: %d\n", tamanho);
 			puts("|       ( )");
 			puts("|       /|\\");
 			puts("|       / \\");
@@ -258,7 +258,7 @@ void jogo(){
 			}
 
 			while(verifica != 'f'){
-				desenhar(erro);
+				desenhar(erro, tam);
 				for(int i = 0; letrasAcerto[i] != '\0'; i++){
 					if(letrasAcerto[i] != '0'){
 						printf("%c ", letrasAcerto[i]);
@@ -293,9 +293,10 @@ void jogo(){
 						}
 					}
 					else{
-						if(!verificaPalavras2(resposta, word)){
-							errado = 0;
+						if(verificaPalavras2(resposta, word)){
+							verifica = 'f';
 						}
+						else errado =0;
 					}
 					if(errado == 0){
 						erro = erro + 1;

@@ -319,7 +319,7 @@ void jogo(){
 							for(int i = 0; resposta[i] != '\0'; i++){
 								printf("%c ", resposta[i]);
 							}
-							puts("");
+							puts("Acertou! Parabens");
 							verifica = 'f';
 						}
 						else errado =0;

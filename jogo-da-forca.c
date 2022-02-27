@@ -124,13 +124,13 @@ void excluirWord(){
 		}
 }
 
-void desenhar(int i, int tamanho){
+void desenhar(int i, int tamanho, char todasLetras[26]){
 	switch(i){
 		case 0:
 		{
 			puts("_________");
-			printf("|        |			Letras: %d\n", tamanho);
-			puts("|");
+			printf("|        |			Quantidade de letras: %d\n", tamanho);
+			printf("|				Letras usadas: %s\n", todasLetras);
 			puts("|");
 			puts("|");
 			puts("|");
@@ -140,8 +140,8 @@ void desenhar(int i, int tamanho){
 		case 1:
 		{
 			puts("_________");
-			printf("|        |			Letras: %d\n", tamanho);
-			puts("|       ( )");
+			printf("|        |			Quantidade de letras: %d\n", tamanho);
+			printf("|       ( )			Letras usadas: %s\n", todasLetras);		
 			puts("|");
 			puts("|");
 			puts("|");
@@ -151,8 +151,8 @@ void desenhar(int i, int tamanho){
 		case 2:
 		{
 			puts("_________");
-			printf("|        |			Letras: %d\n", tamanho);
-			puts("|       ( )");
+			printf("|        |			Quantidade de letras: %d\n", tamanho);
+			printf("|       ( )			Letras usadas: %s\n", todasLetras);
 			puts("|        |");
 			puts("|");
 			puts("|");
@@ -162,8 +162,8 @@ void desenhar(int i, int tamanho){
 		case 3:
 		{
 			puts("_________");
-			printf("|        |			Letras: %d\n", tamanho);
-			puts("|       ( )");
+			printf("|        |			Quantidade de letras: %d\n", tamanho);
+			printf("|       ( )			Letras usadas: %s\n", todasLetras);
 			puts("|       /|");
 			puts("|");
 			puts("|");
@@ -173,8 +173,8 @@ void desenhar(int i, int tamanho){
 		case 4:
 		{
 			puts("_________");
-			printf("|        |			Letras: %d\n", tamanho);
-			puts("|       ( )");
+			printf("|        |			Quantidade de letras: %d\n", tamanho);
+			printf("|       ( )			Letras usadas: %s\n", todasLetras);
 			puts("|       /|\\");
 			puts("|");
 			puts("|");
@@ -184,8 +184,8 @@ void desenhar(int i, int tamanho){
 		case 5:
 		{
 			puts("_________");
-			printf("|        |			Letras: %d\n", tamanho);
-			puts("|       ( )");
+			printf("|        |			Quantidade de letras: %d\n", tamanho);
+			printf("|       ( )			Letras usadas: %s\n", todasLetras);
 			puts("|       /|\\");
 			puts("|       / ");
 			puts("|");
@@ -195,8 +195,8 @@ void desenhar(int i, int tamanho){
 		case 6:
 		{
 			puts("_________");
-			printf("|        |			Letras: %d\n", tamanho);
-			puts("|       ( )");
+			printf("|        |			Quantidade de letras: %d\n", tamanho);
+			printf("|       ( )			Letras usadas: %s\n", todasLetras);
 			puts("|       /|\\");
 			puts("|       / \\");
 			puts("|");
@@ -222,6 +222,21 @@ int verificaPalavras2(char vet1[], char vet2[]){ //depois comparar com o verific
 		i++;
 	}
 	return 1;
+}
+
+void insereTodasLetras(char todasLetras[], int *tam, char resposta[]){
+	int i = 0;
+	for(;todasLetras[i] != '\0' && todasLetras[i] != resposta[0]; i++);
+	if(todasLetras[i] == '\0'){
+		printf("i = %d  tam = %d\n", i, *tam);
+		if(i == *tam || i + 2 == *tam || i + 3 == *tam){
+			todasLetras = (char *) realloc(todasLetras, sizeof(char) * (*tam) + 6);
+			*tam = *tam + 6;
+		}
+		todasLetras[i] = resposta[0];
+		todasLetras[i+1] = ' ';
+		todasLetras[i+2] = '\0';
+	}
 }
 
 void jogo(){
@@ -252,13 +267,16 @@ void jogo(){
 			char *resposta = (char *) malloc(sizeof(char) * tam); 
 			char *letrasAcerto = (char *) malloc(sizeof(char) * tam);
 			char verifica = 'i';
+			max = 3; //max agora vai servir como tamanho maximo do vetor todasLetras;
+			char *todasLetras = (char *) malloc(sizeof(char) * 3);
+			todasLetras[0] = '\0';
 			int erro = 0, errado = 2;
 			for(int i = 0; i < tam; i++){
 				letrasAcerto[i] = '0';
 			}
 
 			while(verifica != 'f'){
-				desenhar(erro, tam);
+				desenhar(erro, tam, todasLetras);
 				for(int i = 0; letrasAcerto[i] != '\0'; i++){
 					if(letrasAcerto[i] != '0'){
 						printf("%c ", letrasAcerto[i]);
@@ -282,6 +300,10 @@ void jogo(){
 					scanf(" %s", resposta); //fgets(resposta, tam, stdin); <--- verificar isso;
 					errado = 2;
 					if(resposta[1] == '\0'){
+						insereTodasLetras(todasLetras, &max, resposta);
+						todasLetras[max] = resposta[0];
+						todasLetras[max+1] = '\0';
+						max++;
 						for(int i = 0; word[i] != '\0'; i++){
 							if(word[i] == resposta[0] || resposta[0] + 32 == word[i] || resposta[0] - 32 == word[i]){
 								letrasAcerto[i] = word[i];
@@ -294,7 +316,9 @@ void jogo(){
 					}
 					else{
 						if(verificaPalavras2(resposta, word)){
-							verifica = 'f';
+							for(int i = 0; resposta[i] != '\0'; i++){
+								letrasAcerto[i] = resposta[i];
+							}
 						}
 						else errado =0;
 					}
@@ -304,9 +328,10 @@ void jogo(){
 					}
 				}
 			}
-			fclose(file);
-			free(resposta);
-			free(letrasAcerto);
+			fclose(file); file = NULL;
+			free(resposta); resposta = NULL;
+			free(letrasAcerto); letrasAcerto = NULL;
+			free(todasLetras); todasLetras = NULL;
 		}
 		else
 			puts("ERRO 01");

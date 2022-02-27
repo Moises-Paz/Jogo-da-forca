@@ -228,7 +228,6 @@ void insereTodasLetras(char todasLetras[], int *tam, char resposta[]){
 	int i = 0;
 	for(;todasLetras[i] != '\0' && todasLetras[i] != resposta[0]; i++);
 	if(todasLetras[i] == '\0'){
-		printf("i = %d  tam = %d\n", i, *tam);
 		if(i == *tam || i + 2 == *tam || i + 3 == *tam){
 			todasLetras = (char *) realloc(todasLetras, sizeof(char) * (*tam) + 6);
 			*tam = *tam + 6;
@@ -316,9 +315,12 @@ void jogo(){
 					}
 					else{
 						if(verificaPalavras2(resposta, word)){
+							desenhar(erro, tam, todasLetras);
 							for(int i = 0; resposta[i] != '\0'; i++){
-								letrasAcerto[i] = resposta[i];
+								printf("%c ", resposta[i]);
 							}
+							puts("");
+							verifica = 'f';
 						}
 						else errado =0;
 					}

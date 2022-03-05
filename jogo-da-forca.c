@@ -264,20 +264,16 @@ void jogo(){
 			removeN(word);
 			int tam  = tamanho(word);
 			char *resposta = (char *) malloc(sizeof(char) * tam); 
-			char *letrasAcerto = (char *) malloc(sizeof(char) * tam);
+			char *letrasAcerto = (char *) calloc(tam, sizeof(char));
 			char verifica = 'i';
 			max = 3; //max agora vai servir como tamanho maximo do vetor todasLetras;
 			char *todasLetras = (char *) malloc(sizeof(char) * 3);
 			todasLetras[0] = '\0';
 			int erro = 0, errado = 2;
-			for(int i = 0; i < tam; i++){
-				letrasAcerto[i] = '0';
-			}
-
 			while(verifica != 'f'){
 				desenhar(erro, tam, todasLetras);
-				for(int i = 0; letrasAcerto[i] != '\0'; i++){
-					if(letrasAcerto[i] != '0'){
+				for(int i = 0; i < tam; i++){
+					if(letrasAcerto[i] != 0){
 						printf("%c ", letrasAcerto[i]);
 					}
 					else{
@@ -285,7 +281,7 @@ void jogo(){
 					}	
 				}
 
-				if(verificaPalavras2(letrasAcerto, word) || erro > 5){
+				if(verificaPalavras2(word, letrasAcerto) || erro > 5){
 					if(erro > 5){
 						puts("Errou");
 					}
@@ -319,7 +315,7 @@ void jogo(){
 							for(int i = 0; resposta[i] != '\0'; i++){
 								printf("%c ", resposta[i]);
 							}
-							puts("Acertou! Parabens");
+							puts("\nAcertou! Parabens.");
 							verifica = 'f';
 						}
 						else errado =0;

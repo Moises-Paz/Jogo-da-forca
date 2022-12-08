@@ -1,13 +1,1 @@
-pipeline{
-    agent none
-    stage{
-        stage('Build'){
-            agent{
-                docker{image'maven'}
-            }
-            steps{
-                sh"mvn package - Dmaven.test.skip=true"
-            }
-        }
-    }
-}
+echo "Ola jenkins"

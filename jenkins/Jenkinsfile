@@ -1,1 +1,8 @@
-echo "Ola jenkins"
+node{
+    stage('passo1'){
+        echo'script 1'
+    }
+    stage('passo2'){
+        echo'script2'
+    }
+}

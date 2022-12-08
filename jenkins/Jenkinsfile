@@ -1,8 +1,15 @@
-node{
-    stage('passo1'){
-        echo'script 1'
-    }
-    stage('passo2'){
-        echo'script2'
+pipeline{
+    agent any
+    stages{
+        stage('passo1'){
+            steps{
+                echo'steps 1'
+            }
+        }
+        stage('passo2'){
+            steps{
+                echo'steps 1'
+            }
+        }
     }
 }
